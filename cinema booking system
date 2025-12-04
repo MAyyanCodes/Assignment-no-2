@@ -1,0 +1,135 @@
+#include <iostream>
+using namespace std;
+int main() {
+int rows, columns;
+    cout << "Enter number of rows: ";
+    cin >> rows;
+    cout << "Enter number of columns: ";
+    cin >> columns;
+    char cinema_array[20][20];
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) {
+            cinema_array[i][j] = 'F';
+        }
+    }
+
+    cout<<"Seat layout: "<<endl;
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) {
+            cout<<" ( "<< i+1 <<" - "<< j+1 <<" ) ";
+        }
+        cout<<endl;
+    }
+int freeseats = rows * columns;
+int reservedseats = 0;
+cout<<"We have total avalible seats: "<<freeseats<<endl;
+    int choice;
+    while (true) {
+        cout << "\nMAIN MENU\n";
+        cout << "1. Book a Seat\n";
+        cout << "2. show Seat Map (Not Graphical)\n";
+        cout << "3. Cancel a Seat\n";
+        cout << "4. Show Seat Map\n";
+        cout << "5. Show Free & Reserved Count of seats\n";
+        cout << "6. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        int r,c;     //variables controlling the row number and seat number basically colomun
+        if (choice == 1) {
+
+            cout<<"There are three categories to book your seat..."<<endl;
+            cout<<"1. VIP From Row 1 to Row 2\n";
+            cout<<"2. GOLD From Row 3 to Row 8\n";
+            cout<<"3. STANDARD From Row 5 to the end of cinema\n";
+            cout<<"Enter the row in which you want to reserve the seat: ";
+            cin>>r;
+            cout<<"Enter the seat number (column): ";
+            cin>>c;
+            if (r<1 || r>rows || c<1 || c>columns ) {
+                cout<<"Invalid selection please select within the range"<<endl;
+            }
+            else {
+                if (cinema_array[r-1][c-1] == 'F') {
+                int price;
+                int vip= 1600;
+                int gold = 1000;
+                int standard = 700;
+                if(r<=2){
+                price = vip;
+                cout<<"Your VIP ticket price is: "<<price<<endl;
+                }
+                else if (r>2 && r<=8){
+                price = gold;
+                cout<<"Your GOLD ticket price is: "<<price<<endl;
+                }
+                else {
+                price = standard;
+                    cout<<"Your STANDARD ticket price is: "<<price<<endl;
+                }
+                    cinema_array[r-1][c-1] = 'R';
+                    cout<<"The seat is booked successfully!"<<endl;
+                    freeseats--;
+                    reservedseats++;
+                    cout<<"Now we have avalaible seats: "<<freeseats<<endl;
+                    cout<<"The reserved seats are: "<<reservedseats<<endl;
+                }
+                else {
+                    cout<<"Seat is already reserved, Pick another one!"<<endl;
+                }
+            }
+        }
+        else if (choice == 2) {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < columns; j++) {
+                    cout<<"( "<< i+1 <<" - "<< j+1 <<" "<<cinema_array[i][j]<<")";
+                }
+                cout<<endl;
+            }
+        }
+        else if (choice == 3) {
+            int cancel_rows, cancel_columns;  //variables controlling the row number and number of seat in which we want to cancel our reservation
+            cout<<"Enter the row number in which you want to cancel your reservation: ";
+            cin>>cancel_rows;
+            cout<<"Enter the seat number in which you want to cancel your reservation:";
+            cin>>cancel_columns;
+        if (cinema_array[r-1][c-1] == 'R') {
+            cinema_array[r-1][c-1] = 'F';
+            freeseats++;
+            reservedseats--;
+            cout<<"Reservation has been cancelled successfully"<<endl;
+        }
+            else {
+            cout<<"The seat has not booked which you are trying to unbook!"<<endl;
+                cout<<"Please select that which you have booked"<<endl;
+            }
+        }
+        else if (choice == 4) {
+            cout<<"[O] is for free seat and [X] is for reserved seat"<<endl;
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < columns; j++) {
+                    if (cinema_array[i][j] == 'F') {
+                        cout<<"[O] ( "<< i+1 <<" - "<< j+1  <<  cinema_array[i][j] <<" ) ";
+                    }
+                    else {
+                        cout<<"[X] ( "<< i+1 <<" - "<< j+1  <<  cinema_array[i][j] <<" ) ";
+                    }
+                }
+                cout<<endl;
+            }
+
+        }
+        else if ( choice == 5) {
+            cout<<"Here are the free seats avaliable in our cinema:"<<freeseats<<endl;
+            cout<<"Here are the reserved seats in our cinema: "<<reservedseats<<endl;
+        }
+
+       else if (choice == 6) {
+            cout<<"Exiting.......... have a good movie night................ "<<endl;
+            break;
+        }
+        else {
+            cout<<"Invalid choice"<<endl;
+        }
+    }
+    return 0;
+}
